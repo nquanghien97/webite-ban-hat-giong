@@ -22,7 +22,7 @@ const testimonials = [
     city: 'Đà Nẵng',
     rating: 5,
     comment:
-      'Xà lách tự trồng ăn an toàn hơn, không lo dư lượng thuốc. Hạt giống SanChu mọc đều, lá to, giòn ngọt. Cân not approved!',
+      'Xà lách tự trồng ăn an toàn hơn, không lo dư lượng thuốc. Hạt giống SanChu mọc đều, lá to, giòn ngọt.',
   },
 ];
 
