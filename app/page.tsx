@@ -7,6 +7,7 @@ import { Testimonials } from '@/components/testimonials';
 import { Footer } from '@/components/footer';
 import { ImageSlider } from '@/components/image-slider';
 import { FlashOffer } from '@/components/flash-offer';
+import Image from 'next/image';
 
 export default function Page() {
   return (
@@ -19,6 +20,9 @@ export default function Page() {
       <Comparison />
       <section id="order" className="pb-4 bg-gray-50">
         <OrderForm />
+      </section>
+      <section className="mb-2">
+        <Image src="/huong-dan-trong.png" alt="Hướng dẫn trồng" width={800} height={1200} />
       </section>
       <Testimonials />
       {/* <Footer /> */}

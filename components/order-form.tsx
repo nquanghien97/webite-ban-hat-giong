@@ -16,6 +16,7 @@ import { FlashOffer } from "./flash-offer"
 interface ComboOption {
   id: string
   name: React.ReactNode
+  label: string
   packages: number
   price: number
   shipping: string
@@ -25,6 +26,7 @@ const comboOptions: ComboOption[] = [
   {
     id: 'combo1',
     name: <p><span className="text-xl">5</span> Gói Hạt Giống Xà Lách</p>,
+    label: '5 Gói Hạt Giống Xà Lách',
     packages: 5,
     price: 100000,
     shipping: 'Miễn Phí Ship',
@@ -32,6 +34,7 @@ const comboOptions: ComboOption[] = [
   {
     id: 'combo2',
     name: <p><span className="text-xl">10</span> Gói Hạt Giống Xà Lách</p>,
+    label: '10 Gói Hạt Giống Xà Lách',
     packages: 10,
     price: 150000,
     shipping: 'Miễn Phí Ship',
@@ -39,6 +42,7 @@ const comboOptions: ComboOption[] = [
   {
     id: 'combo3',
     name: <p><span className="text-xl">20</span> Gói Hạt Giống Xà Lách</p>,
+    label: '20 Gói Hạt Giống Xà Lách',
     packages: 20,
     price: 250000,
     shipping: 'Miễn Phí Ship',
@@ -56,7 +60,6 @@ export function OrderForm() {
     fullName: '',
     phone: '',
     address: '',
-    quantity: '1',
     selectedCombo: '',
   })
 
@@ -93,7 +96,7 @@ export function OrderForm() {
     console.log('Form submitted')
     setError(null)
     setSuccess(false)
-    
+
     const errors: { [key: string]: string } = {}
 
     if (!formData.fullName.trim()) {
@@ -112,10 +115,6 @@ export function OrderForm() {
       errors.selectedCombo = 'Vui lòng chọn một combo'
     }
 
-    if (!formData.quantity || Number(formData.quantity) < 1) {
-      errors.quantity = 'Số lượng phải lớn hơn hoặc bằng 1'
-    }
-
     if (Object.keys(errors).length > 0) {
       console.log('Validation Errors:', errors)
       setFieldErrors(errors)
@@ -124,7 +123,7 @@ export function OrderForm() {
 
     // Get combo name
     const combo = comboOptions.find((c) => c.id === formData.selectedCombo)
-    const comboName = combo?.name || ''
+    const comboName = combo?.label || ''
 
     setLoading(true)
 
@@ -138,7 +137,6 @@ export function OrderForm() {
           fullName: formData.fullName.trim(),
           phone: formData.phone.trim(),
           address: formData.address.trim(),
-          quantity: formData.quantity,
           combo: comboName,
           totalPrice: calculateTotal(),
           timestamp: new Date().toISOString(),
@@ -154,7 +152,6 @@ export function OrderForm() {
         fullName: '',
         phone: '',
         address: '',
-        quantity: '1',
         selectedCombo: '',
       })
 
@@ -173,26 +170,10 @@ export function OrderForm() {
     <div className="w-full max-w-2xl mx-auto p-4">
       <Card>
         {/* <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 border-b"> */}
-          <FlashOffer options="clock" />
+        <FlashOffer options="clock" />
         {/* </CardHeader> */}
 
         <CardContent className="pt-6">
-          {error && (
-            <Alert variant="destructive" className="mb-6">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          {success && (
-            <Alert className="mb-6 bg-green-50 text-green-800 border-green-200">
-              <CheckCircle2 className="h-4 w-4 text-green-600" />
-              <AlertDescription>
-                Đơn hàng của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ bạn sớm.
-              </AlertDescription>
-            </Alert>
-          )}
-
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Personal Information */}
             <div className="space-y-4">
@@ -226,7 +207,7 @@ export function OrderForm() {
                   value={formData.phone}
                   onChange={handleInputChange}
                   className="w-full"
-                  // required
+                // required
                 />
                 {fieldErrors.phone && (
                   <p className="text-sm text-red-600 mt-1">{fieldErrors.phone}</p>
@@ -244,7 +225,7 @@ export function OrderForm() {
                   value={formData.address}
                   onChange={handleInputChange}
                   className="w-full min-h-24"
-                  // required
+                // required
                 />
                 {fieldErrors.address && (
                   <p className="text-sm text-red-600 mt-1">{fieldErrors.address}</p>
@@ -307,6 +288,21 @@ export function OrderForm() {
                 )}
               </Button>
             </div>
+            {error && (
+              <Alert variant="destructive" className="mb-6">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
+            {success && (
+              <Alert className="mb-6 bg-green-50 text-green-800 border-green-200">
+                <CheckCircle2 className="h-4 w-4 text-green-600" />
+                <AlertDescription>
+                  Em cảm ơn ạ. Mấy ngày tới sẽ có bên giao hàng gọi cho Anh/Chị. Anh/Chị để ý điện thoại nhận hàng giúp em nhé ạ
+                </AlertDescription>
+              </Alert>
+            )}
           </form>
         </CardContent>
       </Card>
