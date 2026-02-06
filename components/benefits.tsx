@@ -1,0 +1,105 @@
+'use client';
+
+import { motion } from 'framer-motion';
+
+const benefits = [
+  {
+    icon: '🌿',
+    title: 'Trồng tại nhà – An toàn',
+    description: 'Sạch, không lo thuốc hóa học',
+  },
+  {
+    icon: '🏠',
+    title: 'Siêu tiện lợi',
+    description: 'Vườn nhỏ, ban công cũng trồng được',
+  },
+  {
+    icon: '🥬',
+    title: 'Lá to, xanh tươi',
+    description: 'Mềm nhưng giòn, ăn ngon ngọt, dễ chế biến',
+  },
+  {
+    icon: '🍲',
+    title: 'Đa dụng',
+    description: 'Ăn sống, cuốn thịt nướng, salad đều hợp',
+  },
+  {
+    icon: '🌱',
+    title: 'Dễ chăm sóc',
+    description: 'Hợp khí hậu, trồng chậu hay đất vườn đều tốt',
+  },
+  {
+    icon: '💪',
+    title: 'Tốt cho sức khỏe',
+    description: 'Cung cấp vitamin A, C, chất chống oxy hoá',
+  },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: 'easeOut' },
+  },
+};
+
+export function Benefits() {
+  return (
+    <section className="relative py-16 md:py-24 lg:py-32 bg-background">
+      <div className="container mx-auto px-4 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true, margin: '-100px' }}
+          className="text-center mb-12 md:mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Tại Sao Nên Chọn <span className="text-primary">SanChu</span>?
+          </h2>
+          <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
+            6 lợi ích chính khi chọn hạt giống xà lách SanChu chuẩn vị Hàn Quốc
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-100px' }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+        >
+          {benefits.map((benefit, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="group bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-border hover:border-primary/30"
+            >
+              <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-110">
+                {benefit.icon}
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-2">
+                {benefit.title}
+              </h3>
+              <p className="text-foreground/70 leading-relaxed">
+                {benefit.description}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}

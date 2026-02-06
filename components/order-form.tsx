@@ -1,0 +1,374 @@
+'use client'
+
+import { Checkbox } from "@/components/ui/checkbox"
+import React from "react"
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Textarea } from '@/components/ui/textarea'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react'
+
+interface ComboOption {
+  id: string
+  name: string
+  packages: number
+  price: number
+  shipping: string
+}
+
+const comboOptions: ComboOption[] = [
+  {
+    id: 'combo1',
+    name: '5 Gói Hạt Giống Xà Lách',
+    packages: 5,
+    price: 100000,
+    shipping: 'Miễn Phí Ship',
+  },
+  {
+    id: 'combo2',
+    name: '10 Gói Hạt Giống Xà Lách',
+    packages: 10,
+    price: 150000,
+    shipping: 'Miễn Phí Ship',
+  },
+  {
+    id: 'combo3',
+    name: '20 Gói Hạt Giống Xà Lách',
+    packages: 20,
+    price: 250000,
+    shipping: 'Miễn Phí Ship',
+  },
+]
+
+export function OrderForm() {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
+
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({})
+
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phone: '',
+    address: '',
+    quantity: '1',
+    selectedCombo: '',
+  })
+
+  const validateVietnamesePhone = (phone: string): boolean => {
+    const vietnamesePhoneRegex = /^(?:\+84|0)[0-9]{9,10}$/
+    return vietnamesePhoneRegex.test(phone.replace(/\s/g, ''))
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+    setFieldErrors((prev) => ({ ...prev, [name]: '' }))
+  }
+
+  const handleComboChange = (comboId: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      selectedCombo: comboId,
+    }))
+    setFieldErrors((prev) => ({ ...prev, selectedCombo: '' }))
+  }
+
+  const calculateTotal = (): number => {
+    if (!formData.selectedCombo) return 0
+    const combo = comboOptions.find((c) => c.id === formData.selectedCombo)
+    return combo?.price || 0
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log('Form submitted')
+    setError(null)
+    setSuccess(false)
+    
+    const errors: { [key: string]: string } = {}
+
+    if (!formData.fullName.trim()) {
+      errors.fullName = 'Vui lòng nhập họ tên'
+    }
+
+    if (!validateVietnamesePhone(formData.phone)) {
+      errors.phone = 'Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại Việt Nam (0xxx xxx xxxx)'
+    }
+
+    if (!formData.address.trim()) {
+      errors.address = 'Vui lòng nhập địa chỉ nhận hàng'
+    }
+
+    if (!formData.selectedCombo) {
+      errors.selectedCombo = 'Vui lòng chọn một combo'
+    }
+
+    if (!formData.quantity || Number(formData.quantity) < 1) {
+      errors.quantity = 'Số lượng phải lớn hơn hoặc bằng 1'
+    }
+
+    if (Object.keys(errors).length > 0) {
+      console.log('Validation Errors:', errors)
+      setFieldErrors(errors)
+      return
+    }
+
+    // Get combo name
+    const combo = comboOptions.find((c) => c.id === formData.selectedCombo)
+    const comboName = combo?.name || ''
+
+    setLoading(true)
+
+    try {
+      const response = await fetch('/api/order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName: formData.fullName.trim(),
+          phone: formData.phone.trim(),
+          address: formData.address.trim(),
+          quantity: formData.quantity,
+          combo: comboName,
+          totalPrice: calculateTotal(),
+          timestamp: new Date().toISOString(),
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Gửi đơn hàng thất bại. Vui lòng thử lại.')
+      }
+
+      setSuccess(true)
+      setFormData({
+        fullName: '',
+        phone: '',
+        address: '',
+        quantity: '1',
+        selectedCombo: '',
+      })
+
+      // Reset success message after 5 seconds
+      setTimeout(() => setSuccess(false), 5000)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Có lỗi xảy ra. Vui lòng thử lại.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const total = calculateTotal()
+
+  return (
+    <div className="w-full max-w-2xl mx-auto py-8 px-4">
+      <Card>
+        <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 border-b">
+          <CardTitle className="text-2xl font-bold text-green-900">Đặt Hàng Xà Lách SanChu</CardTitle>
+          <CardDescription className="text-base mt-2">
+            Hạt giống chất lượng cao từ Hàn Quốc - Miễn phí vận chuyển
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="pt-6">
+          {error && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          {success && (
+            <Alert className="mb-6 bg-green-50 text-green-800 border-green-200">
+              <CheckCircle2 className="h-4 w-4 text-green-600" />
+              <AlertDescription>
+                Đơn hàng của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ bạn sớm.
+              </AlertDescription>
+            </Alert>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Personal Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-900">Thông Tin Cá Nhân</h3>
+
+              <div>
+                <Label htmlFor="fullName" className="block text-sm font-medium mb-2">
+                  Họ và Tên <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  placeholder="Nhập họ và tên"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  className="w-full"
+                />
+                {fieldErrors.fullName && (
+                  <p className="text-sm text-red-600 mt-1">{fieldErrors.fullName}</p>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="phone" className="block text-sm font-medium mb-2">
+                  Số Điện Thoại <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="0901234567 hoặc +84901234567"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="w-full"
+                  // required
+                />
+                {fieldErrors.phone && (
+                  <p className="text-sm text-red-600 mt-1">{fieldErrors.phone}</p>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="address" className="block text-sm font-medium mb-2">
+                  Địa Chỉ Nhận Hàng <span className="text-red-500">*</span>
+                </Label>
+                <Textarea
+                  id="address"
+                  name="address"
+                  placeholder="Nhập địa chỉ nhận hàng chi tiết"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  className="w-full min-h-24"
+                  // required
+                />
+                {fieldErrors.address && (
+                  <p className="text-sm text-red-600 mt-1">{fieldErrors.address}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Combo Selection */}
+            <div className="space-y-4 border-t pt-6">
+              <h3 className="text-lg font-semibold text-gray-900">Chọn Combo Sản Phẩm</h3>
+
+              <RadioGroup value={formData.selectedCombo} onValueChange={handleComboChange}>
+                <div className="space-y-3">
+                  {comboOptions.map((combo) => (
+                    <div
+                      key={combo.id}
+                      className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-green-50 transition-colors cursor-pointer"
+                    >
+                      <RadioGroupItem
+                        value={combo.id}
+                        id={combo.id}
+                        className="mt-1"
+                      />
+                      <div className="flex-1">
+                        <label
+                          htmlFor={combo.id}
+                          className="text-sm font-medium text-gray-900 cursor-pointer block"
+                        >
+                          <p>{combo.name}</p>
+                          <div className="flex items-center justify-between mt-1">
+                            <span className="text-xs text-gray-500">{combo.packages} gói</span>
+                            <span className="text-sm font-semibold text-green-600">
+                              {combo.price.toLocaleString('vi-VN')}đ
+                            </span>
+                          </div>
+                          <span className="text-xs text-green-600 font-medium">{combo.shipping}</span>
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </RadioGroup>
+
+              {fieldErrors.selectedCombo && (
+                <p className="text-sm text-red-600 mt-2">{fieldErrors.selectedCombo}</p>
+              )}
+            </div>
+
+            {/* Quantity */}
+            <div className="space-y-4 border-t pt-6">
+              <h3 className="text-lg font-semibold text-gray-900">Số Lượng</h3>
+
+              <div>
+                <Label htmlFor="quantity" className="block text-sm font-medium mb-2">
+                  Số Lượng Combo <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="quantity"
+                  name="quantity"
+                  type="number"
+                  min="1"
+                  max="999"
+                  value={formData.quantity}
+                  onChange={handleInputChange}
+                  className="w-full"
+                />
+                {fieldErrors.quantity && (
+                  <p className="text-sm text-red-600 mt-1">{fieldErrors.quantity}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Order Summary */}
+            {formData.selectedCombo && (
+              <div className="space-y-4 border-t pt-6 bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-lg font-semibold text-gray-900">Tóm Tắt Đơn Hàng</h3>
+                <div className="space-y-2">
+                  {(() => {
+                    const combo = comboOptions.find((c) => c.id === formData.selectedCombo)
+                    return combo ? (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-700">{combo.name}</span>
+                        <span className="font-medium text-gray-900">
+                          {combo.price.toLocaleString('vi-VN')}đ
+                        </span>
+                      </div>
+                    ) : null
+                  })()}
+                </div>
+                <div className="border-t pt-2 flex justify-between">
+                  <span className="font-semibold text-gray-900">Tổng Cộng:</span>
+                  <span className="text-lg font-bold text-green-600">{total.toLocaleString('vi-VN')}đ</span>
+                </div>
+                <p className="text-xs text-green-600 font-medium">✓ Miễn Phí Vận Chuyển</p>
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <div className="border-t pt-6">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-6 text-lg rounded-lg transition-colors"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Đang gửi...
+                  </>
+                ) : (
+                  'Đặt Hàng Ngay'
+                )}
+              </Button>
+              <p className="text-xs text-gray-500 text-center mt-4">
+                Bằng cách đặt hàng, bạn đồng ý với điều khoản dịch vụ của chúng tôi
+              </p>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
