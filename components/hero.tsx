@@ -9,20 +9,13 @@ export function Hero() {
     <section className="relative w-full overflow-hidden bg-gradient-to-b from-primary/10 to-background">
       <div className="container mx-auto">
         <div className="flex justify-center items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+          <div
             className="space-y-2"
           >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
+            <div>
               <Image src="/banner.png" alt="Banner SanChu" width={600} height={400} />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

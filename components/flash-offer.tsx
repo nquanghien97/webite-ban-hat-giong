@@ -65,44 +65,32 @@ export function FlashOffer({ options = 'button' }: FlashOfferProps) {
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main offer container */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6 }}
+        <div
           className="space-y-6"
         >
           {/* Top text - Super offer */}
           <div className="text-center flex items-center gap-2">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+            <div
               className="inline-block"
             >
               <span className="inline-block bg-red-600 text-white px-6 py-2 rounded-full font-bold text-lg">
                 🔥 Siêu ưu đãi chỉ hôm nay
               </span>
-            </motion.div>
+            </div>
 
             {/* Savings badge */}
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+            <div
               className="flex justify-center"
             >
               <div className="inline-flex items-center gap-2 bg-white border-2 border-orange-400 px-6 py-3 rounded-2xl">
                 <span className="text-sm font-semibold text-gray-700">Tiết kiệm</span>
                 <span className="text-3xl font-bold text-orange-600">30%</span>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Price comparison */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+          <div
             className="flex items-center justify-center gap-4 sm:gap-6"
           >
             {/* Old price */}
@@ -115,71 +103,38 @@ export function FlashOffer({ options = 'button' }: FlashOfferProps) {
             </div>
 
             {/* New price - highlighted */}
-            <motion.div
+            <div
               className="text-center"
-              animate={isVisible ? { scale: [0.95, 1.05, 1] } : { scale: 0.95 }}
-              transition={{
-                duration: 1.5,
-                delay: 0.5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: 'reverse',
-              }}
             >
               <p className="text-xl font-bold mb-1">Giá mới</p>
-              <motion.p
+              <p
                 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600"
-                animate={isVisible ? { scale: [1, 1.02, 1] } : { scale: 1 }}
-                transition={{
-                  duration: 1.5,
-                  delay: 0.5,
-                  repeat: Number.POSITIVE_INFINITY,
-                  repeatType: 'reverse',
-                }}
               >
                 100.000đ
-              </motion.p>
-              <motion.p
+              </p>
+              <p
                 className="text-xl font-bold text-gray-600 mt-1"
-                animate={isVisible ? { opacity: [1, 0.7, 1] } : { opacity: 1 }}
-                transition={{
-                  duration: 1.5,
-                  delay: 0.5,
-                  repeat: Number.POSITIVE_INFINITY,
-                  repeatType: 'reverse',
-                }}
               >
                 /5 gói hạt giống
-              </motion.p>
-            </motion.div>
-          </motion.div>
+              </p>
+            </div>
+          </div>
 
           {/* CTA Button */}
           {options === 'button' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
+            <div
               className="flex justify-center"
             >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  const orderSection = document.getElementById('order')
-                  orderSection?.scrollIntoView({ behavior: 'smooth' })
-                }}
+              <button
                 className="bg-gradient-to-r from-red-600 to-orange-600 text-white px-8 py-3 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-shadow"
               >
                 Đặt Hàng Ngay
-              </motion.button>
-            </motion.div>
+              </button>
+            </div>
           )}
 
           {options === 'clock' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
+            <div
               className="flex justify-center"
             >
               <div className="bg-white px-6 py-3 rounded-full font-bold text-lg shadow-lg flex items-center gap-4">
@@ -189,9 +144,9 @@ export function FlashOffer({ options = 'button' }: FlashOfferProps) {
                 </div>
                 <span className="text-red-600 text-xl">{timeLeft.hours.toString().padStart(2, '0')}:{timeLeft.minutes.toString().padStart(2, '0')}:{timeLeft.seconds.toString().padStart(2, '0')}</span>
               </div>
-            </motion.div>
+            </div>
           )}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

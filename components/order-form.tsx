@@ -154,9 +154,6 @@ export function OrderForm() {
         address: '',
         selectedCombo: '',
       })
-
-      // Reset success message after 5 seconds
-      setTimeout(() => setSuccess(false), 5000)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Có lỗi xảy ra. Vui lòng thử lại.')
     } finally {

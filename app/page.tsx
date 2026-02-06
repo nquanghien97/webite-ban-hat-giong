@@ -21,7 +21,7 @@ export default function Page() {
       <section id="order" className="pb-4 bg-gray-50">
         <OrderForm />
       </section>
-      <section className="mb-2">
+      <section className="mb-2 flex justify-center">
         <Image src="/huong-dan-trong.png" alt="Hướng dẫn trồng" width={800} height={1200} />
       </section>
       <Testimonials />

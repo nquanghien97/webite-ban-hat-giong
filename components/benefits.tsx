@@ -64,29 +64,20 @@ export function Benefits() {
   return (
     <section className="relative py-4 bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true, margin: '-100px' }}
+        <div
           className="text-center mb-4"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Tại Sao Nên Chọn Hạt Giống Xà Lách <span className="text-primary">SanChu</span>?
           </h2>
-        </motion.div>
+        </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-100px' }}
+        <div
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-8"
         >
           {benefits.map((benefit, index) => (
-            <motion.div
+            <div
               key={index}
-              variants={itemVariants}
               className="flex group bg-white rounded-2xl p-2 shadow-lg hover:shadow-xl transition-all duration-300 border border-border hover:border-primary/30"
             >
               <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-110">
@@ -100,9 +91,9 @@ export function Benefits() {
                 {benefit.description}
               </p>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -29,7 +29,7 @@ const comparisonData = [
     market: 'Đắt hơn theo thời gian',
   },
   {
-    feature: 'Nutrition',
+    feature: 'Dinh dưỡng',
     sanchu: 'Tươi, đầy đủ vitamin',
     market: 'Bị mất vitamin khi vận chuyển',
   },
@@ -59,11 +59,7 @@ export function Comparison() {
   return (
     <section className="pb-4 bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true, margin: '-100px' }}
+        <div
           className="text-center mb-4"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
@@ -72,13 +68,9 @@ export function Comparison() {
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
             Tại sao xà lách SanChu tự trồng tốt hơn rau mua ngoài?
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-100px' }}
+        <div
           className="overflow-hidden rounded-2xl border border-border shadow-lg bg-white"
         >
           <table className="w-full">
@@ -97,9 +89,8 @@ export function Comparison() {
             </thead>
             <tbody className="divide-y divide-border">
               {comparisonData.map((row, index) => (
-                <motion.tr
+                <tr
                   key={index}
-                  variants={rowVariants}
                   className={index % 2 === 0 ? 'bg-white' : 'bg-primary/5'}
                 >
                   <td className="px-4 md:px-6 py-4 font-semibold text-foreground">
@@ -111,11 +102,11 @@ export function Comparison() {
                   <td className="px-4 md:px-6 py-4 text-center text-red-600 font-medium">
                     ❌ {row.market}
                   </td>
-                </motion.tr>
+                </tr>
               ))}
             </tbody>
           </table>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
