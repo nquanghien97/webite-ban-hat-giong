@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 export function Pricing() {
   return (
-    <section className="py-16 md:py-24 lg:py-32 bg-gradient-to-b from-primary/5 to-background">
+    <section className="py-8 bg-gradient-to-b from-primary/5 to-background">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

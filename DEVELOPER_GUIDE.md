@@ -487,7 +487,7 @@ import { motion } from 'framer-motion';
 
 export function NewSection() {
   return (
-    <section className="py-16 md:py-24 lg:py-32">
+    <section className="py-8">
       <motion.div>
         {/* Content */}
       </motion.div>

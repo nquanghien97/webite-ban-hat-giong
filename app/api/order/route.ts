@@ -5,7 +5,7 @@ interface OrderData {
   phone: string
   address: string
   quantity: string
-  combos: string
+  combo: string
   totalPrice: number
   timestamp: string
 }
@@ -15,7 +15,7 @@ interface OrderData {
  * Submits order form data to Google Sheets via Google Apps Script Web App
  *
  * To set up Google Sheets integration:
- * 1. Create a Google Sheet with columns: Timestamp, Full Name, Phone, Address, Quantity, Combos, Total Price
+ * 1. Create a Google Sheet with columns: Timestamp, Full Name, Phone, Address, Quantity, Combo, Total Price
  * 2. Create a Google Apps Script (see example below)
  * 3. Deploy as Web App and set GOOGLE_APPS_SCRIPT_URL environment variable
  *
@@ -32,7 +32,7 @@ interface OrderData {
  *       data.phone,
  *       data.address,
  *       data.quantity,
- *       data.combos,
+ *       data.combo,
  *       data.totalPrice
  *     ]);
  *
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     const body: OrderData = await request.json()
 
     // Validate required fields
-    if (!body.fullName || !body.phone || !body.address || !body.combos) {
+    if (!body.fullName || !body.phone || !body.address || !body.combo) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
@@ -87,12 +87,7 @@ export async function POST(request: NextRequest) {
       console.error('[v0] Google Apps Script error:', response.statusText)
       throw new Error('Failed to submit order to Google Sheets')
     }
-
-    const result = await response.json()
-
-    if (!result.success) {
-      throw new Error(result.error || 'Unknown error from Google Sheets')
-    }
+    await response.json()
 
     return NextResponse.json({
       success: true,

@@ -3,10 +3,11 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export function Hero() {
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-b from-primary/10 to-background pt-20 md:pt-32">
+    <section className="relative w-full overflow-hidden bg-gradient-to-b from-primary/10 to-background pt-8">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid gap-8 md:gap-12 lg:grid-cols-2 lg:gap-16 items-center">
           {/* Left: Content */}
@@ -53,12 +54,14 @@ export function Hero() {
               transition={{ delay: 0.5, duration: 0.7 }}
               className="flex flex-col gap-4 sm:flex-row sm:gap-4 pt-4"
             >
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 h-12 text-base font-semibold"
-              >
-                🛒 Mua Ngay
-              </Button>
+              <a href="#order">
+                <Button
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 h-12 text-base font-semibold"
+                >
+                  Mua Ngay
+                </Button>
+              </a>
             </motion.div>
           </motion.div>
 

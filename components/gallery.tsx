@@ -43,7 +43,7 @@ const itemVariants = {
 
 export function Gallery() {
   return (
-    <section className="py-16 md:py-24 lg:py-32 bg-gradient-to-b from-background to-primary/5">
+    <section className="py-8 bg-gradient-to-b from-background to-primary/5">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
