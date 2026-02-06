@@ -22,6 +22,23 @@ export default function Page() {
       </section>
       <Testimonials />
       {/* <Footer /> */}
+      <div className="fixed bottom-0 left-0 right-0 ">
+        <div className="font-bold flex gap-1 p-2">
+          <div className="w-2/3 text-center text-xl bg-red-600 rounded-full py-1 px-2">
+            <span className="inline-block text-white px-6 text-lg">
+              Ưu đãi chỉ hôm nay
+            </span>
+            <div className="text-center text-white">
+              <p className="text-xl font-bold">
+                100.000đ /5 gói
+              </p>
+            </div>
+          </div>
+          <a href="#order" className="w-1/3 flex items-center justify-center bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-shadow">
+            Mua Ngay
+          </a>
+        </div>
+      </div>
     </main>
   );
 }
