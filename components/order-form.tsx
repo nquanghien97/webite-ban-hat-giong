@@ -11,10 +11,11 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Textarea } from '@/components/ui/textarea'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react'
+import { FlashOffer } from "./flash-offer"
 
 interface ComboOption {
   id: string
-  name: string
+  name: React.ReactNode
   packages: number
   price: number
   shipping: string
@@ -23,21 +24,21 @@ interface ComboOption {
 const comboOptions: ComboOption[] = [
   {
     id: 'combo1',
-    name: '5 Gói Hạt Giống Xà Lách',
+    name: <p><span className="text-xl">5</span> Gói Hạt Giống Xà Lách</p>,
     packages: 5,
     price: 100000,
     shipping: 'Miễn Phí Ship',
   },
   {
     id: 'combo2',
-    name: '10 Gói Hạt Giống Xà Lách',
+    name: <p><span className="text-xl">10</span> Gói Hạt Giống Xà Lách</p>,
     packages: 10,
     price: 150000,
     shipping: 'Miễn Phí Ship',
   },
   {
     id: 'combo3',
-    name: '20 Gói Hạt Giống Xà Lách',
+    name: <p><span className="text-xl">20</span> Gói Hạt Giống Xà Lách</p>,
     packages: 20,
     price: 250000,
     shipping: 'Miễn Phí Ship',
@@ -169,14 +170,11 @@ export function OrderForm() {
   const total = calculateTotal()
 
   return (
-    <div className="w-full max-w-2xl mx-auto py-8 px-4">
+    <div className="w-full max-w-2xl mx-auto p-4">
       <Card>
-        <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 border-b">
-          <CardTitle className="text-2xl font-bold text-green-900">Đặt Hàng Xà Lách SanChu</CardTitle>
-          <CardDescription className="text-base mt-2">
-            Hạt giống chất lượng cao từ Hàn Quốc - Miễn phí vận chuyển
-          </CardDescription>
-        </CardHeader>
+        {/* <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 border-b"> */}
+          <FlashOffer options="clock" />
+        {/* </CardHeader> */}
 
         <CardContent className="pt-6">
           {error && (
@@ -198,17 +196,15 @@ export function OrderForm() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Personal Information */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900">Thông Tin Cá Nhân</h3>
-
               <div>
                 <Label htmlFor="fullName" className="block text-sm font-medium mb-2">
-                  Họ và Tên <span className="text-red-500">*</span>
+                  Tên khách hàng <span className="text-red-500">*</span>
                 </Label>
                 <Input
                   id="fullName"
                   name="fullName"
                   type="text"
-                  placeholder="Nhập họ và tên"
+                  placeholder="Nhập Tên khách hàng"
                   value={formData.fullName}
                   onChange={handleInputChange}
                   className="w-full"
@@ -226,7 +222,7 @@ export function OrderForm() {
                   id="phone"
                   name="phone"
                   type="tel"
-                  placeholder="0901234567 hoặc +84901234567"
+                  placeholder="Nhập số điện thoại"
                   value={formData.phone}
                   onChange={handleInputChange}
                   className="w-full"
@@ -258,29 +254,27 @@ export function OrderForm() {
 
             {/* Combo Selection */}
             <div className="space-y-4 border-t pt-6">
-              <h3 className="text-lg font-semibold text-gray-900">Chọn Combo Sản Phẩm</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Chọn số lượng gói sản phẩm</h3>
 
               <RadioGroup value={formData.selectedCombo} onValueChange={handleComboChange}>
                 <div className="space-y-3">
                   {comboOptions.map((combo) => (
                     <div
                       key={combo.id}
-                      className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-green-50 transition-colors cursor-pointer"
+                      className="flex items-center space-x-3 px-4 py-2 border rounded-lg hover:bg-green-50 transition-colors cursor-pointer"
                     >
                       <RadioGroupItem
                         value={combo.id}
                         id={combo.id}
-                        className="mt-1"
                       />
                       <div className="flex-1">
                         <label
                           htmlFor={combo.id}
                           className="text-sm font-medium text-gray-900 cursor-pointer block"
                         >
-                          <p>{combo.name}</p>
                           <div className="flex items-center justify-between mt-1">
-                            <span className="text-xs text-gray-500">{combo.packages} gói</span>
-                            <span className="text-sm font-semibold text-green-600">
+                            {combo.name}
+                            <span className="text-xl font-semibold text-green-600">
                               {combo.price.toLocaleString('vi-VN')}đ
                             </span>
                           </div>
@@ -296,56 +290,6 @@ export function OrderForm() {
                 <p className="text-sm text-red-600 mt-2">{fieldErrors.selectedCombo}</p>
               )}
             </div>
-
-            {/* Quantity */}
-            <div className="space-y-4 border-t pt-6">
-              <h3 className="text-lg font-semibold text-gray-900">Số Lượng</h3>
-
-              <div>
-                <Label htmlFor="quantity" className="block text-sm font-medium mb-2">
-                  Số Lượng Combo <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="quantity"
-                  name="quantity"
-                  type="number"
-                  min="1"
-                  max="999"
-                  value={formData.quantity}
-                  onChange={handleInputChange}
-                  className="w-full"
-                />
-                {fieldErrors.quantity && (
-                  <p className="text-sm text-red-600 mt-1">{fieldErrors.quantity}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Order Summary */}
-            {formData.selectedCombo && (
-              <div className="space-y-4 border-t pt-6 bg-gray-50 p-4 rounded-lg">
-                <h3 className="text-lg font-semibold text-gray-900">Tóm Tắt Đơn Hàng</h3>
-                <div className="space-y-2">
-                  {(() => {
-                    const combo = comboOptions.find((c) => c.id === formData.selectedCombo)
-                    return combo ? (
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-700">{combo.name}</span>
-                        <span className="font-medium text-gray-900">
-                          {combo.price.toLocaleString('vi-VN')}đ
-                        </span>
-                      </div>
-                    ) : null
-                  })()}
-                </div>
-                <div className="border-t pt-2 flex justify-between">
-                  <span className="font-semibold text-gray-900">Tổng Cộng:</span>
-                  <span className="text-lg font-bold text-green-600">{total.toLocaleString('vi-VN')}đ</span>
-                </div>
-                <p className="text-xs text-green-600 font-medium">✓ Miễn Phí Vận Chuyển</p>
-              </div>
-            )}
-
             {/* Submit Button */}
             <div className="border-t pt-6">
               <Button
@@ -362,9 +306,6 @@ export function OrderForm() {
                   'Đặt Hàng Ngay'
                 )}
               </Button>
-              <p className="text-xs text-gray-500 text-center mt-4">
-                Bằng cách đặt hàng, bạn đồng ý với điều khoản dịch vụ của chúng tôi
-              </p>
             </div>
           </form>
         </CardContent>

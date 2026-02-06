@@ -48,21 +48,18 @@ const itemVariants = {
 
 export function Testimonials() {
   return (
-    <section className="py-8 bg-gradient-to-b from-background to-primary/5">
+    <section className="pb-4 bg-gradient-to-b from-background to-primary/5">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true, margin: '-100px' }}
-          className="text-center mb-12 md:mb-16"
+          className="text-center"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2">
             Đánh Giá Từ <span className="text-primary">Khách Hàng</span>
           </h2>
-          <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-            Hàng nghìn khách hàng hài lòng đã chọn SanChu. Bạn sẽ là người tiếp theo!
-          </p>
         </motion.div>
 
         <motion.div
@@ -112,7 +109,7 @@ export function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.7 }}
           viewport={{ once: true, margin: '-100px' }}
-          className="mt-16 flex flex-col md:flex-row justify-center gap-8 md:gap-12"
+          className="mt-4 flex flex-col md:flex-row justify-center gap-8 md:gap-12"
         >
           <div className="text-center">
             <p className="text-4xl font-bold text-primary mb-2">5,000+</p>

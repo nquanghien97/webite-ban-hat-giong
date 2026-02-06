@@ -4,6 +4,11 @@ import { motion } from 'framer-motion';
 
 const benefits = [
   {
+    icon: '🌞',
+    title: 'Thu hoạch nhanh chóng',
+    description: 'Chỉ sau 25-30 ngày là có thể thu hoạch và ăn được quanh năm',
+  },
+  {
     icon: '🌿',
     title: 'Trồng tại nhà – An toàn',
     description: 'Sạch, không lo thuốc hóa học',
@@ -57,21 +62,18 @@ const itemVariants = {
 
 export function Benefits() {
   return (
-    <section className="relative py-8 bg-background">
+    <section className="relative py-4 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true, margin: '-100px' }}
-          className="text-center mb-12 md:mb-16"
+          className="text-center mb-4"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Tại Sao Nên Chọn <span className="text-primary">SanChu</span>?
+            Tại Sao Nên Chọn Hạt Giống Xà Lách <span className="text-primary">SanChu</span>?
           </h2>
-          <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-            6 lợi ích chính khi chọn hạt giống xà lách SanChu chuẩn vị Hàn Quốc
-          </p>
         </motion.div>
 
         <motion.div
@@ -79,23 +81,25 @@ export function Benefits() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: '-100px' }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-8"
         >
           {benefits.map((benefit, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
-              className="group bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-border hover:border-primary/30"
+              className="flex group bg-white rounded-2xl p-2 shadow-lg hover:shadow-xl transition-all duration-300 border border-border hover:border-primary/30"
             >
               <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-110">
                 {benefit.icon}
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-2">
+              <div>
+                <h3 className="text-xl font-bold text-foreground mb-2">
                 {benefit.title}
               </h3>
               <p className="text-foreground/70 leading-relaxed">
                 {benefit.description}
               </p>
+              </div>
             </motion.div>
           ))}
         </motion.div>
