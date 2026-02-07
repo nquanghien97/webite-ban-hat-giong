@@ -122,15 +122,16 @@ export function FlashOffer({ options = 'button' }: FlashOfferProps) {
 
           {/* CTA Button */}
           {options === 'button' && (
-            <div
+            <a
               className="flex justify-center animate-sway"
+              href="#order" 
             >
               <button
                 className="bg-gradient-to-r from-red-600 to-orange-600 text-white px-8 py-3 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-shadow"
               >
                 Đặt Hàng Ngay
               </button>
-            </div>
+            </a>
           )}
 
           {options === 'clock' && (

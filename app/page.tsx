@@ -27,7 +27,7 @@ export default function Page() {
       <Testimonials />
       {/* <Footer /> */}
       <div className="fixed bottom-0 left-0 right-0 ">
-        <div className="font-bold flex gap-1 px-2 bg-red-600 rounded-full">
+        <a href="#order"  className="font-bold flex gap-1 px-2 bg-red-600 rounded-full">
           <div className="text-center text-xl py-1 px-2">
             <span className="inline-block text-white px-6 text-lg">
               Ưu đãi chỉ hôm nay
@@ -39,10 +39,10 @@ export default function Page() {
             </div>
           </div>
           <div className="w-[3px] self-stretch bg-[white] rotate-[30deg]" />
-          <a href="#order" className="m-auto animate-zoom-in-out flex items-center justify-center text-white font-bold text-2xl">
+          <div className="m-auto animate-zoom-in-out flex items-center justify-center text-white font-bold text-2xl">
             MUA NGAY
-          </a>
-        </div>
+          </div>
+        </a>
       </div>
     </main>
   );
