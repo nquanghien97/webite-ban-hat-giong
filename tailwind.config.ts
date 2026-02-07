@@ -84,10 +84,26 @@ const config: Config = {
             height: '0',
           },
         },
+        'zoomInOut': {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.1)' },
+        },
+        'zoomOutIn': {
+          '0%, 100%': { transform: 'scale(1.1)' },
+          '50%': { transform: 'scale(1)' },
+        },
+        'sway': {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(6deg)' },
+          '75%': { transform: 'rotate(-6deg)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'zoom-in-out': 'zoomInOut 1s ease-in-out infinite',
+        'zoom-out-in': 'zoomOutIn 1s ease-in-out infinite',
+        'sway': 'sway 1s ease-in-out infinite',
       },
     },
   },
